@@ -1,9 +1,0 @@
-{
-	"host" : "zak.cfgmalmluev3.us-west-2.rds.amazonaws.com",
-	"database" : "daizzy",
-	"table" : "volunteer_info",
-	"user" : "zakattack9",
-	"password" : "Zakattacks9!",
-	"port" : 5432,
-	"idleTimeoutMillis" : 1000
-}
