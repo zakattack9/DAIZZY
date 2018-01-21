@@ -73,7 +73,7 @@ function botText(input) { //adds bot text to the chatbox
 
 var qNum = 0; //question number
 var questions = ["May I please have your name?","What role are you looking to volunteer for?"];
-var volId; //used to identify volunteer
+var volId = null; //used to identify volunteer
 var currUser = volDb[volId];
 
 function addText() { //adds text from the textbox to the chatbox
@@ -105,7 +105,7 @@ function addText() { //adds text from the textbox to the chatbox
 
     if(name.includes('') && name.length > 0){ //checks if name was inputted (Not Null)
       for(var i = 0; i < volDb.length; i++) { //searches for previous user
-        if(volDb[i].name === name){
+        if(volDb[i].name.toLowerCase() === name.toLowerCase()){
           botText("Welcome back " + name + ", I see you are registered in our database, would you like to modify your previously inputted data?");
           volId = i;
           qNum = 7;
@@ -196,21 +196,37 @@ function addText() { //adds text from the textbox to the chatbox
   }else if(qNum === 6){
     let userInput = $('#input')[0].value.toLowerCase();
     if(userInput.includes("yea") || userInput.includes("yes") || userInput.includes("yeah") || userInput.includes("correct")){
-      botText("Thank you for scheduling with me! If you ever need to change your volunteer date, re-enter your name when signing up and our system will automatically recoginze you. Have a good day!");
       
       console.log(volunteers[0]);
-      //add new volunteer data to database
-      $.ajax({
-        url: "https://eevmumxbq8.execute-api.us-west-2.amazonaws.com/dev/post",
-        method: 'POST',
-        contentType: "application/json; charset=utf-8",
-        dataType: 'JSON',
-        data: JSON.stringify({
-          "name" : volunteers[0].name,
-          "job" : volunteers[0].job,
-          "date" : volunteers[0].date
+      //console.log(volId);
+      if(volId === null){ //add new volunteer data to database
+        botText("Thank you for scheduling with me! If you ever need to change your volunteer date, re-enter your name when signing up and our system will automatically recoginze you. Have a good day!");
+        $.ajax({
+          url: "https://eevmumxbq8.execute-api.us-west-2.amazonaws.com/dev/post",
+          method: 'POST',
+          contentType: "application/json; charset=utf-8",
+          dataType: 'JSON',
+          data: JSON.stringify({
+            "name" : volunteers[0].name,
+            "job" : volunteers[0].job,
+            "date" : volunteers[0].date
+          })
         })
-      })
+      }else{ //updates volunteer
+        botText("Your information has been updated! Thank you for scheduling again with Daizzy, if you ever need to change your information again, please re-enter your name when signing up.")
+        $.ajax({
+          url: "https://eevmumxbq8.execute-api.us-west-2.amazonaws.com/dev/put",
+          method: 'PUT',
+          contentType: "application/json; charset=utf-8",
+          dataType: 'JSON',
+          data: JSON.stringify({
+            "id" : volDb[volId].id,
+            "name" : volDb[volId].name,
+            "job" : volunteers[0].job,
+            "date" : volunteers[0].date
+          })
+        })
+      }
 
       setTimeout(() => location.reload(), 10000);
     }else if(userInput.includes("no") || userInput.includes("nope")){

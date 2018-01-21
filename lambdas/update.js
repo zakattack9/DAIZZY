@@ -12,24 +12,18 @@ const Client = new Pool ({ //creating template
   idleTimeoutMillis : 1000
 });
 
-/*const testData = require('../test-data/update.json');
-console.log(testData);*/
-
-
-
 module.exports.update = (event, context, callback) => {
   console.log("event", event.body)
-  let parseBody = JSON.parse(event.body)
-  let {id, title, year, genre} = parseBody;
-  console.log('ID', id, 'TITLE', title, 'YEAR', year, 'GENRE', genre);
+  let {id, name, job, date} = JSON.parse(event.body);
+  console.log(id, name, job, date);
 
-  let updateMovies = "UPDATE " + table + " SET TITLE = " + "$1, " + "YEAR = " + "$2, " + "genre = " + "$3 " + "WHERE ID = " + "$4";
+  let updateMovies = "UPDATE " + table + " SET NAME = " + "$1, " + "JOB = " + "$2, " + "DATE = " + "$3 " + "WHERE ID = " + "$4";
 
   Client.connect() //connect to database
     .then(client => {
       console.log('connected to DB ' + Client.options.database + ' ready to UPDATE')
       client.release();
-      return client.query(updateMovies, [title, year, genre, id]);
+      return client.query(updateMovies, [name, job, date, id]); //must be in order
     })
     .then(res => {
       const response = {
