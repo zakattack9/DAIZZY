@@ -1,0 +1,26 @@
+{
+  "name": "Daizzy",
+  "version": "1.0.0",
+  "description": "Daizzy a combination of our team member's names, is a chatbot designed to make scheduling volunteer work and events easier.",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.185.0",
+    "pg": "^7.4.1",
+    "pg-pool": "^2.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zakattack9/DAIZZY.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zakattack9/DAIZZY/issues"
+  },
+  "homepage": "https://github.com/zakattack9/DAIZZY#readme"
+}

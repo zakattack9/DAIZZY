@@ -1,0 +1,474 @@
+html, body {
+  font-family: 'Raleway', sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  top: -16px;
+  background: url('../images/calendar.jpg') 0 0 / cover no-repeat fixed;
+}
+
+#navigation {
+  width: 100%;
+  height: 70px;
+  line-height: 70px;
+  background-color: #B0F6BB;
+  display: block;
+  position: relative;
+}
+
+#navigation ul {
+  box-sizing: border-box;
+  height: 40px;
+}
+
+#navigation ul li {
+  display: inline-block;
+  margin-left: 5%;
+  list-style: none;
+  height: 40px;
+}
+
+#navigation ul li:hover {
+  animation: pulse 1s infinite;
+}
+
+a {
+  text-decoration: none;
+  color: #404040;
+  transition: 0.5s;
+}
+
+a:hover {
+  color: #9CBEBF;
+}
+
+#iconCorner {
+  position: absolute;
+  right: 5.5%;
+  top: 0;
+}
+
+#gitIcon {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+}
+
+#iconCorner:hover #gitIcon{
+  animation: flip 0.7s forwards;
+}
+
+#container {
+  width: 100%;
+  height: 100%;
+}
+
+#welcomeScreen {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  margin-top: 95px;
+}
+
+#daisy {
+  width: 200px;
+  height: 200px;
+}
+
+#info {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+  margin: auto;
+  padding: 15px;
+  text-align: center;
+  border-radius: inherit;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: #404040;
+}
+
+#info h3 {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  color: #323f4e;
+  line-height: 30px;
+}
+
+#startBtn {
+  line-height: 40px;
+  font-size: 17px;
+  width: 245px;
+  height: 40px;
+  margin-right: auto;
+  margin-left: auto;
+  color: white;
+  transition: 0.25s;
+  background-color: rgba(0, 105, 132, 0.5);
+  /* outline: 5px solid rgba(0, 82, 102, 0.9); */
+  /* outline: 5px solid #AFDEDC; */
+  /* border: 5px solid black; */
+  outline-offset: -5px;
+  user-select: none;
+  cursor: default;
+}
+
+#startBtn:hover {
+  /* font-size: 16px; */
+  line-height: 43px;
+  background-color: rgba(0, 122, 153, 0.7);
+  /* outline: 8px solid rgba(0, 82, 102, 0.9); */
+  /* border: 8px solid black; */
+  /* outline-offset: -8px; */
+  transform: scale(1.05, 1.05);
+  color: #e6e6e6;
+  transition: 0.25s;
+  border-radius: 5px;
+}
+
+#chat {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: none;
+  width: 50%;
+  height: 85%;
+  margin: auto;
+  margin-top: 95px;
+  margin-bottom: 50px;
+  transition: 1s;
+  background-color: #F0F7EE;
+}
+
+#daizzy {
+  font-size: 30px;
+  line-height: 50px;
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+  text-align: center;
+  background-color: #6ACCCB;
+  color: #344251;
+}
+
+#chatLog {
+  box-sizing: border-box;
+  width: 99.9%;
+  height: 87%;
+  padding: 20px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+input[type = text], select {
+  font-size: 16px;
+  position: absolute;
+  bottom: -10px;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 20px;
+  margin: 8px 0;
+  padding: 15px 20px;
+  border-radius: 25px;
+  border: 2px solid #776871;
+  border-top-width: 2.3px; 
+  outline: none;
+  background-color: white;
+}
+
+.bot {
+	position: relative;
+	background: #776871;
+	color: white;
+	border-radius: .4em;
+	padding: 15px;
+	width: 60%;
+	margin-right: auto;
+	box-sizing: border-box;
+	margin-bottom: 15px;
+	overflow: auto;
+	word-wrap: break-word;
+	text-align: left;
+}
+
+.user {
+	position: relative;
+	background: #91A8A4;
+	border-radius: .4em;
+	padding: 15px;
+	width: 60%;
+	margin-left: auto;
+	box-sizing: border-box;
+	margin-bottom: 15px;
+	overflow: auto;
+	word-wrap: break-word;
+	text-align: left;
+}
+
+#side-nav {
+  position: relative;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #F0F7EE;
+  overflow-x: hidden;
+  transition: 0.6s;
+}
+
+#closeButton {
+  display: block;
+  transform: rotate(45deg);
+  width: 30px;
+  font-size: 40px;
+  margin-left: auto;
+  margin-right: 10px;
+  cursor: default;
+  transition: 0.3s;
+}
+
+#closeButton:hover {
+  transform: rotate(90deg);
+  transform: scale(1.3, 1.3);
+  transition: 0.3s;
+}
+
+#overlayTab {
+  background-color: #B0F6BB;
+  position: absolute;
+  width: 40px;
+  height: 10%;
+  top: 50%;
+  left: -10px;
+  border-radius: 10px;
+  transition: 0.3s;
+  display: none;
+}
+
+#menu-icon {
+  width: 30px;
+  height: 30px;
+  margin-left: 8px;
+  margin-top: 50%;
+  transform: rotate(0deg);
+  transition: 0.3s;
+}
+
+#bothCals {
+  padding-top: 7%;
+}
+
+#calendar, #calendar2 {
+  font-size: 16px;
+  box-sizing: border-box;
+  background-color: #007E9F;
+  font-family: 'Josefin Sans', sans-serif;
+  text-align: center;
+  width: 100%;
+  height: 30%;
+}
+
+#calTitle, #calTitle2 {
+  font-size: 24px;
+  background-color: #06C5FB;
+  position: relative;
+  bottom: 25px;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 15px 20px;
+  width: 100%;
+}
+
+#authorize-button, #signout-button, #authorize-button2, #signout-button2 {
+  background-color: #06C5FB;
+  border-color: #006480;   
+  position: relative;
+  bottom: 15px;
+  font-family: 'Josefin Sans', sans-serif;
+  border: none;
+  padding: 15px 20px;
+  width: 40%;
+}
+
+/*Simple Media Queries*/
+@media only screen and (max-width: 465px){
+  #navigation {
+    width: 465px;
+  }
+}
+
+@media only screen and (max-width: 480px){ /*for nav bar*/
+  #navigation ul {
+    padding-left: 0;
+    font-size: 15px;
+    transition: 0.2s;
+  }
+
+  #cornerIcon {
+    right: 0;
+  }
+}
+
+@media only screen and (min-width: 571px){ /*for overlay tab larger screen*/
+  #side-nav {
+    height: 100%;
+    width: 0;
+  }
+
+  #overlayTab:hover {
+    background-color: #F0F7EE;
+    left: -7px;
+    transition: 0.3s;
+  }
+
+  #overlayTab:hover #menu-icon {
+    transform: rotate(90deg);
+    transition: 0.3s;
+  }
+
+  #overlayTab {
+    animation: overlayTabLeft 0.5s ease-out paused;
+  }
+}
+
+@media only screen and (max-width: 570px){ /*for overlay tab at smaller screen*/
+  #navigation {
+    z-index: 1;
+  }
+
+  #side-nav {
+    width: 0;
+    height: 0;
+  }
+
+  #overlayTab {
+    top: 35px;
+    left: 50%;
+    transform: rotate(90deg);
+    animation: overlayTabTop 0.5s ease-out paused;
+  }
+
+  #menu-icon {
+    margin-left: 10px;
+  }
+  
+  #overlayTab:hover {
+    background-color: #F0F7EE;
+    top: 30px;
+    transition: 0.3s;
+  }
+
+  #overlayTab:hover #menu-icon {
+    transform: rotate(90deg);
+    transition: 0.3s;
+  }
+}
+
+@media only screen and (max-width: 520px){
+  #info {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 650px){
+  #info {
+    height: 390px;
+  }
+}
+
+@media only screen and (min-width: 941px){ /*use bigger animation for welcome screen*/
+  #welcomeScreen {
+    animation: welcomeScreen 1.5s ease-out forwards paused; 
+  }
+
+}
+
+@media only screen and (max-width: 940px){ /*use smaller screen anim*/
+  #chat {
+    width: 465px;
+  }
+
+  #welcomeScreen {
+    animation: welcomeScreenSmall 1.5s ease-out forwards paused; 
+  }
+}
+
+
+/* ----------- Galaxy S5 ----------- */
+    /* Portrait and Landscape */
+@media screen 
+  and (device-width: 360px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 3) {
+    #info{
+      width: 80%;
+      height: 90%;
+    }
+    #iconCorner{
+      right: 150px;
+    }
+    a{
+      font-size: 12px;
+    }
+    #startBtn{
+      width: 100%;
+    }
+    #chat{
+      width: 80%;
+      height: 80%;
+    }
+
+}
+
+/* ----------- iPhone 5 and 5S ----------- */
+/*         Portrait and Landscape 
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    #startBtn{
+      width: 98%;
+    }
+    #calendar{
+      width: 95%;
+    }
+}*/
+
+/* ----------- iPad 3 and 4 ----------- */
+      /* Portrait and Landscape */
+/*@media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) 
+  and (-webkit-min-device-pixel-ratio: 2) {
+    #info, #startBtn, #calTitle, #input, .chatMessage, #calTitle, #authorize-button, #signout-button, a{
+      font-size: 30px;
+    }
+    #startBtn{
+      width: 80%;
+      height: 10%;    
+    }
+    #input{
+      height: 10%;
+    }
+    #navigation{
+      height: 8%;
+    }
+    #calendar{
+      width: 70%;
+    }
+}*/
