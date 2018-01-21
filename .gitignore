@@ -5,3 +5,5 @@ jspm_packages
 
 # Serverless directories
 .serverless
+
+# https://docs.microsoft.com/en-us/vsts/git/tutorial/ignore-files?tabs=visual-studio
