@@ -27,7 +27,7 @@ $.ajax({
   response.map(currVal => {
     volDb.push(new Volunteer(currVal.id, currVal.name, currVal.job, currVal.date));
   })
-  console.log(volDb);
+  //console.log(volDb);
 })
 .fail((err) => {
   console.log('error', err);
