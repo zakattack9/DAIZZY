@@ -3,9 +3,6 @@ $(document).ready(function() {
   setTimeout(() => { $('#navigation')[0].style.animationPlayState = "running";}, 500);
 });
 
-var moment = require('moment'); //moment.js, used to validate date
-moment().format();
-
 // psql --host zak.cfgmalmluev3.us-west-2.rds.amazonaws.com --port 5432 --username zakattack9 --dbname daizzy
 var volunteers = []; //temporary volunteer list
 var volDb = []; //volunteer database
@@ -138,6 +135,8 @@ function addText() { //adds text from the textbox to the chatbox
       }else{
         botText('Sorry I didn\'t quite get that, try answering again with the keywords, "Yes" or "Sure".');
       }
+    }else{
+      botText('Sorry I didn\'t quite get that, try answering again with the keywords, "Yes" or "No".');
     }  
   }else if(qNum === 3) {
     if ($('#input')[0].value.toLowerCase() === roles[0].toLowerCase()){
@@ -173,7 +172,7 @@ function addText() { //adds text from the textbox to the chatbox
     }
   }else if(qNum === 4){
     let userInput = $('#input')[0].value.toLowerCase();
-    if(userInput.includes("yea") || userInput.includes("yes") || userInput.includes("yeah") || userInput.includes("correct")){
+    if(userInput.includes("yea") || userInput.includes("yes") || userInput.includes("yeah") || userInput.includes("correct") || userInput.includes("sure")){
       botText("Here are the days we have available for that role");
       setTimeout(() => {
         if($(window).width() < 571) { //checks window
@@ -192,12 +191,18 @@ function addText() { //adds text from the textbox to the chatbox
     }
   }else if(qNum === 5){
     let userInput = $('#input')[0].value.toLowerCase();
-    if(userInput.includes('') && userInput.length === 10){
-      botText("Is this date, " + userInput + ", the correct day you would like to volunteer for the role, " + volunteers[0].job + "?");
-      volunteers[0].date = $('#input')[0].value.toLowerCase();
-      qNum = 6;
+    if(userInput.includes('') && userInput.length === 10){ //validates the date
+      let parts = userInput.split('/'); //splits string at `/`
+      let mydate = new Date(parts[2], parts[0] - 1, parts[1]); // (year, month, day) * month is zero-based (January === 0)
+      if(parts[2] == mydate.getFullYear() && parts[0] - 1 == mydate.getMonth() && parts[1] == mydate.getDate()){
+        botText("Is this date, " + userInput + ", the correct day you would like to volunteer for the role, " + volunteers[0].job + "?");
+        volunteers[0].date = $('#input')[0].value.toLowerCase();
+        qNum = 6;
+      }else{
+        botText(`"${userInput}"` + " Is not a real date or not properly formatted, please try again in the format, MM/DD/YYYY");
+      }
     }else{
-      botText(userInput + " Is not a real date or not properly formatted, please try again");
+      botText(`"${userInput}"` + " Is not a real date or not properly formatted, please try again in the format, MM/DD/YYYY");
     }
   }else if(qNum === 6){
     let userInput = $('#input')[0].value.toLowerCase();
@@ -242,7 +247,7 @@ function addText() { //adds text from the textbox to the chatbox
   }else if(qNum === 7){
     let userInput = $('#input')[0].value.toLowerCase();
     if(userInput.includes("yea") || userInput.includes("yes") || userInput.includes("yeah") || userInput.includes("sure")){
-      botText(`Currently you are signed up as "${volDb[volId].job}" on "${volDb[volId].date}". Would you like to change your volunteer role or reschedule your date?`);
+      botText(`Currently you are signed up as "${volDb[volId].job}" on "${volDb[volId].date}". Would you like to change your volunteer role and reschedule your date?`);
       qNum = 2;
     }else if(userInput.includes("no") || userInput.includes("nope")){
       botText(`Goodbye ${volDb[volId].name}, have a nice day`);
@@ -291,7 +296,7 @@ function closeOverlay(x) {
   }
 }
 
-console.log($(window).width())
+//console.log($(window).width())
 $('#overlayTab').click(function(e) {  
   if($(window).width() < 571) { //checks window
     openOverlay(2);
