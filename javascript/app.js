@@ -3,6 +3,9 @@ $(document).ready(function() {
   setTimeout(() => { $('#navigation')[0].style.animationPlayState = "running";}, 500);
 });
 
+var moment = require('moment'); //moment.js, used to validate date
+moment().format();
+
 // psql --host zak.cfgmalmluev3.us-west-2.rds.amazonaws.com --port 5432 --username zakattack9 --dbname daizzy
 var volunteers = []; //temporary volunteer list
 var volDb = []; //volunteer database
@@ -74,7 +77,6 @@ function botText(input) { //adds bot text to the chatbox
 var qNum = 0; //question number
 var questions = ["May I please have your name?","What role are you looking to volunteer for?"];
 var volId = null; //used to identify volunteer
-var currUser = volDb[volId];
 
 function addText() { //adds text from the textbox to the chatbox
   var userText = document.createElement("div");
@@ -106,8 +108,8 @@ function addText() { //adds text from the textbox to the chatbox
     if(name.includes('') && name.length > 0){ //checks if name was inputted (Not Null)
       for(var i = 0; i < volDb.length; i++) { //searches for previous user
         if(volDb[i].name.toLowerCase() === name.toLowerCase()){
-          botText("Welcome back " + name + ", I see you are registered in our database, would you like to modify your previously inputted data?");
           volId = i;
+          botText("Welcome back " + volDb[volId].name + ", I see you are registered in our database, would you like to modify your previously inputted data?");
           qNum = 7;
           break; //stops looping
         }else if(i === volDb.length - 1 && qNum !== 7){ //if no matches were found then start registering new user
@@ -130,8 +132,12 @@ function addText() { //adds text from the textbox to the chatbox
       botText("What role are you looking to volunteer for, " + volunteers[0].name+"?<br><br>Current available roles:" + listRoles);
       qNum = 3;
     }else if(userInput.includes("no") || userInput.includes("nope")){
-      qNum = 1;
-      botText("Please Re-enter your name");
+      if(volId === null){
+        qNum = 1;
+        botText("Please Re-enter your name");
+      }else{
+        botText('Sorry I didn\'t quite get that, try answering again with the keywords, "Yes" or "Sure".');
+      }
     }  
   }else if(qNum === 3) {
     if ($('#input')[0].value.toLowerCase() === roles[0].toLowerCase()){
