@@ -73,6 +73,8 @@ function botText(input) { //adds bot text to the chatbox
 
 var qNum = 0; //question number
 var questions = ["May I please have your name?","What role are you looking to volunteer for?"];
+//volunteer roles, to be inputted and edited by admin
+var roles = ["Control Center Operator", "Counting Center Official", "Delivery/Collection Official", "Election Information Services Official", "Facility Official","Precinct Official","Precinct Troubleshooter"];
 var volId = null; //used to identify volunteer
 
 function addText() { //adds text from the textbox to the chatbox
@@ -88,6 +90,8 @@ function addText() { //adds text from the textbox to the chatbox
   
   let userDivs = $('.user');
   userDivs.map((index) => userDivs[index].style.textAlign = 'left'); //sets text to left of div
+
+  var userInput = $('#input')[0].value.toLowerCase();
 
   if(qNum === 0) {
     volunteers.push(new Volunteer(null, null, null, null));
@@ -118,13 +122,8 @@ function addText() { //adds text from the textbox to the chatbox
       botText("That is not a name! Re-enter your proper name");
     }
   }else if(qNum === 2) {
-    let userInput = $('#input')[0].value.toLowerCase();
     if(userInput.includes("yea") || userInput.includes("yes") || userInput.includes("yeah") || userInput.includes("correct") || userInput.includes("sure")){
       var listRoles = "";
-      /*for (var i = 0; i < roles.length; i++) {
-        listRoles += "<br> -"+ roles[i].toLowerCase();
-      }*/
-      //use map instead
       roles.map((currVal, index) => listRoles += "<br> -" + roles[index]);
       botText("What role are you looking to volunteer for, " + volunteers[0].name+"?<br><br>Current available roles:" + listRoles);
       qNum = 3;
@@ -139,39 +138,19 @@ function addText() { //adds text from the textbox to the chatbox
       botText('Sorry I didn\'t quite get that, try answering again with the keywords, "Yes" or "No".');
     }  
   }else if(qNum === 3) {
-    if ($('#input')[0].value.toLowerCase() === roles[0].toLowerCase()){
-      volunteers[0].job = roles[0];
-      botText("Are you sure you want to take the volunteer position of " + roles[0] + "?");
-      qNum =4;
-    }else if ($('#input')[0].value.toLowerCase() === roles[1].toLowerCase()){
-      volunteers[0].job = roles[1];
-      botText("Are you sure you want to take the volunteer position of " + roles[1] + "?");
-      qNum =4;
-    }else if ($('#input')[0].value.toLowerCase() === roles[2].toLowerCase()){
-      volunteers[0].job = roles[2];
-      botText("Are you sure you want to take the volunteer position of " + roles[2] + "?");
-      qNum =4;
-    }else if ($('#input')[0].value.toLowerCase() === roles[3].toLowerCase()){
-      volunteers[0].job = roles[3];
-      botText("Are you sure you want to take the volunteer position of " + roles[3] + "?");
-      qNum =4;
-    }else if ($('#input')[0].value.toLowerCase() === roles[4].toLowerCase()){
-      volunteers[0].job = roles[4];
-      botText("Are you sure you want to take the volunteer position of " + roles[4] + "?");
-      qNum =4;
-    }else if ($('#input')[0].value.toLowerCase() === roles[5].toLowerCase()){
-      volunteers[0].job = roles[5];
-      botText("Are you sure you want to take the volunteer position of " + roles[5] + "?");
-      qNum =4;
-    }else if ($('#input')[0].value.toLowerCase() === roles[6].toLowerCase()){
-      volunteers[0].job = roles[6];
-      botText("Are you sure you want to take the volunteer position of " + roles[6] + "?");
-      qNum =4;
-    }else{
-      botText("That volunteer role does not exist. Please try again and type the role as seen above");
+    for(var i = 0; i < roles.length; i++){ //simplifies original job checker
+      if(userInput === roles[i].toLowerCase()){
+        console.log(roles[i])
+        volunteers[0].job = roles[i];
+        botText("Are you sure you want to take the volunteer position of " + roles[i] + "?");
+        qNum = 4;
+        break;
+      }else if(i === roles.length - 1 && qNum !== 4){
+        console.log("not a role");
+        botText("That volunteer role does not exist. Please try again and type the role as seen above");
+      }
     }
   }else if(qNum === 4){
-    let userInput = $('#input')[0].value.toLowerCase();
     if(userInput.includes("yea") || userInput.includes("yes") || userInput.includes("yeah") || userInput.includes("correct") || userInput.includes("sure")){
       botText("Here are the days we have available for that role");
       setTimeout(() => {
@@ -184,17 +163,19 @@ function addText() { //adds text from the textbox to the chatbox
       setTimeout(() => {botText("What date works best for you? Please input the date in the format MM/DD/YYYY");}, 1500);
       qNum = 5;
     }else if(userInput.includes("no") || userInput.includes("nope")){
-      qNum = 3;
       var listRoles = "";
-      roles.map((currVal, index) => listRoles += "<br> -" + roles[index].toLowerCase());
+      roles.map((currVal, index) => listRoles += "<br> -" + roles[index]);
       botText("Plase pick a role:" + listRoles);
-    }
+      qNum = 3;
+    }else{
+      botText('Sorry I didn\'t quite get that, try answering again with the keywords, "Yes" or "No".');
+    } 
   }else if(qNum === 5){
-    let userInput = $('#input')[0].value.toLowerCase();
     if(userInput.includes('') && userInput.length === 10){ //validates the date
       let parts = userInput.split('/'); //splits string at `/`
       let mydate = new Date(parts[2], parts[0] - 1, parts[1]); // (year, month, day) * month is zero-based (January === 0)
-      if(parts[2] == mydate.getFullYear() && parts[0] - 1 == mydate.getMonth() && parts[1] == mydate.getDate()){
+      let today = new Date().getFullYear(); //gets current year
+      if(parts[2] == today && parts[0] - 1 == mydate.getMonth() && parts[1] == mydate.getDate()){
         botText("Is this date, " + userInput + ", the correct day you would like to volunteer for the role, " + volunteers[0].job + "?");
         volunteers[0].date = $('#input')[0].value.toLowerCase();
         qNum = 6;
@@ -205,10 +186,9 @@ function addText() { //adds text from the textbox to the chatbox
       botText(`"${userInput}"` + " Is not a real date or not properly formatted, please try again in the format, MM/DD/YYYY");
     }
   }else if(qNum === 6){
-    let userInput = $('#input')[0].value.toLowerCase();
-    if(userInput.includes("yea") || userInput.includes("yes") || userInput.includes("yeah") || userInput.includes("correct")){
+    if(userInput.includes("yea") || userInput.includes("yes") || userInput.includes("yeah") || userInput.includes("correct") || userInput.includes("sure")){
       
-      console.log(volunteers[0]);
+      //console.log(volunteers[0]);
       //console.log(volId);
       if(volId === null){ //add new volunteer data to database
         botText("Thank you for scheduling with me! If you ever need to change your volunteer date, re-enter your name when signing up and our system will automatically recoginze you. Have a good day!");
@@ -243,15 +223,18 @@ function addText() { //adds text from the textbox to the chatbox
     }else if(userInput.includes("no") || userInput.includes("nope")){
       qNum = 5;
       botText("What date works best for you? Please input the date in the format MM/DD/YYYY");
-    } 
+    }else{
+      botText('Sorry I didn\'t quite get that, try answering again with the keywords, "Yes" or "No".');
+    }
   }else if(qNum === 7){
-    let userInput = $('#input')[0].value.toLowerCase();
     if(userInput.includes("yea") || userInput.includes("yes") || userInput.includes("yeah") || userInput.includes("sure")){
       botText(`Currently you are signed up as "${volDb[volId].job}" on "${volDb[volId].date}". Would you like to change your volunteer role and reschedule your date?`);
       qNum = 2;
     }else if(userInput.includes("no") || userInput.includes("nope")){
       botText(`Goodbye ${volDb[volId].name}, have a nice day`);
       setTimeout(() => location.reload(), 5000);
+    }else{
+      botText('Sorry I didn\'t quite get that, try answering again with the keywords, "Yes" or "No".');
     }
   }
 
@@ -259,8 +242,6 @@ function addText() { //adds text from the textbox to the chatbox
   var objDiv = document.getElementById("chatLog");
   objDiv.scrollTop = objDiv.scrollHeight;
 }
-var name = "";
-var roles = ["Control Center Operator", "Counting Center Official", "Delivery/Collection Official", "Election Information Services Official", "Facility Official","Precinct Official","Precinct Troubleshooter"];
 
 overlayMode = 0;
 function openOverlay(x) {
