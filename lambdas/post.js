@@ -19,14 +19,14 @@ module.exports.post = (event, context, callback) => {
   let {name, job, date} = JSON.parse(event.body);
   console.log(name, job, date);
 
-  let addMovies = "INSERT INTO " + table + " VALUES(default, $1, $2, $3)"
+  let addVolunteer = "INSERT INTO " + table + " VALUES(default, $1, $2, $3)"
 
   console.log("Event", event); //event.body
   Client.connect() //connect to database
     .then(client => {
       console.log('connected to DB ' + Client.options.database + ' ready to POST')
       client.release();
-      return client.query(addMovies, [name, job, date]);
+      return client.query(addVolunteer, [name, job, date]);
     })
     .then(res => {
       const response = {
