@@ -4,7 +4,7 @@
   "description": "Daizzy a combination of our team member's names, is a chatbot designed to make scheduling volunteer work and events easier.",
   "main": "index.js",
   "dependencies": {
-    "aws-sdk": "^2.185.0",
+    "aws-sdk": "^2.814.0",
     "moment": "^2.20.1",
     "pg": "^7.4.1",
     "pg-pool": "^2.0.3"
